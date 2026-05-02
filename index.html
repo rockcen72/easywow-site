@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyWoW - World of Warcraft 智能循环助手</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --orange: #d29922;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 {
+    font-size: 2.8em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  header h1 span { color: var(--accent); }
+  header p {
+    font-size: 1.15em;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+  header .badge {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 6px 18px;
+    background: #1f6feb33;
+    border: 1px solid #1f6feb66;
+    border-radius: 20px;
+    color: var(--accent);
+    font-size: 0.9em;
+  }
+
+  /* Sections */
+  section { padding: 50px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  section h2 {
+    font-size: 1.6em;
+    margin-bottom: 20px;
+  }
+  section h2::before {
+    content: "# ";
+    color: var(--accent);
+  }
+
+  /* Features */
+  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .features li {
+    list-style: none;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95em;
+  }
+  .features li strong { color: var(--green); display: block; margin-bottom: 4px; }
+
+  /* Screenshots */
+  .screenshots { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .screenshots figure {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .screenshots img {
+    width: 100%;
+    display: block;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .screenshots img:hover { opacity: .85; }
+  .screenshots figcaption {
+    padding: 8px 12px;
+    font-size: 0.85em;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* Download */
+  .download-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px;
+    text-align: center;
+  }
+  .download-box .btn {
+    display: inline-block;
+    padding: 14px 48px;
+    background: #238636;
+    border: 1px solid #2ea043;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1.15em;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .2s;
+  }
+  .download-box .btn:hover { background: #2ea043; }
+  .download-box .info {
+    margin-top: 14px;
+    font-size: 0.9em;
+    color: var(--muted);
+  }
+  .download-box .info a { color: var(--accent); text-decoration: none; }
+
+  /* QQ */
+  .qq-box {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .qq-box img {
+    max-width: 260px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin: 16px 0;
+  }
+  .qq-box p { color: var(--muted); font-size: 0.95em; }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 30px 0;
+    color: var(--muted);
+    font-size: 0.85em;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    header h1 { font-size: 2em; }
+    .features, .screenshots { grid-template-columns: 1fr; }
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000000ee;
+    z-index: 999;
+    cursor: zoom-out;
+    justify-content: center;
+    align-items: center;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1><span>Easy</span>WoW</h1>
+    <p>World of Warcraft 智能循环输出助手</p>
+    <span class="badge">⚡ 基于 C_AssistedCombat · 内存直读 · 零注入</span>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>简介</h2>
+    <p>EasyWoW 是一款轻量级的 WoW 循环输出工具。它通过读取游戏内置的 <strong>C_AssistedCombat</strong> 推荐系统，实时分析战斗状态，自动发送按键，帮你更专注于走位和机制处理。</p>
+    <p style="margin-top: 12px; color: var(--muted);">原理与 JustAC / WowSmt 类似，但更轻量：采用外部进程内存扫描（ReadProcessMemory），不注入游戏，不开辟额外线程，资源占用极低。</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>功能</h2>
+    <ul class="features">
+      <li><strong>🤖 智能推荐</strong>基于 C_AssistedCombat 实时推荐优先级最高的技能</li>
+      <li><strong>📋 自定义循环</strong>可视化循环编辑器，自由调整技能优先级</li>
+      <li><strong>⚙️ 多专精支持</strong>每个角色/专精独立保存循环配置，自动切换</li>
+      <li><strong>🎯 目标标记按键</strong>一键标记/焦点/目标切换，支持小队和团队框架</li>
+      <li><strong>🛡️ 施法保护</strong>智能检测施法/引导状态，防止打断读条</li>
+      <li><strong>📊 实时状态</strong>小窗悬浮显示当前技能、战斗状态、循环进度</li>
+      <li><strong>🔒 安全保障</strong>仅读取内存，不修改游戏数据，不违规操作</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>截图</h2>
+    <div class="screenshots">
+      <figure>
+        <img src="神马主界面.png" alt="主界面" loading="lazy" onclick="openLightbox(this)">
+        <figcaption>主界面</figcaption>
+      </figure>
+      <figure>
+        <img src="神马最小化界面.png" alt="小窗悬浮" loading="lazy" onclick="openLightbox(this)">
+        <figcaption>小窗悬浮</figcaption>
+      </figure>
+      <figure>
+        <img src="神马循环编辑界面.png" alt="循环编辑" loading="lazy" onclick="openLightbox(this)">
+        <figcaption>循环编辑器</figcaption>
+      </figure>
+      <figure>
+        <img src="神马选项设置.png" alt="选项设置" loading="lazy" onclick="openLightbox(this)">
+        <figcaption>选项设置</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>下载</h2>
+    <div class="download-box">
+      <a class="btn" href="https://github.com/AIwow/easywow/releases" target="_blank">⬇ 下载最新版本</a>
+      <p class="info">
+        当前版本：<strong>v1.0</strong> ·
+        <a href="https://github.com/AIwow/easywow" target="_blank">GitHub 仓库</a> ·
+        <a href="https://github.com/AIwow/easywow/releases" target="_blank">更新日志</a>
+      </p>
+      <p class="info">使用说明：解压运行 EasyWoW.exe，启动游戏后点击"连接"即可。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>加入交流群</h2>
+    <div class="qq-box">
+      <p>问题反馈、功能建议、循环分享，欢迎加群交流</p>
+      <img src="QQ_1777110559572.png" alt="QQ群二维码" loading="lazy">
+      <p><strong>QQ群：</strong>177711055</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>EasyWoW · 开源 · 免费 · 仅供学习研究使用</p>
+    <p style="margin-top: 6px;">World of Warcraft 是 Blizzard Entertainment, Inc. 的注册商标</p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" alt="">
+</div>
+
+<script>
+function openLightbox(img) {
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
+</body>
+</html>
