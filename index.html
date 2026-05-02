@@ -76,28 +76,6 @@
   }
   .features li strong { color: var(--green); display: block; margin-bottom: 4px; }
 
-  /* Screenshots */
-  .screenshots { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .screenshots figure {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .screenshots img {
-    width: 100%;
-    display: block;
-    cursor: pointer;
-    transition: opacity .2s;
-  }
-  .screenshots img:hover { opacity: .85; }
-  .screenshots figcaption {
-    padding: 8px 12px;
-    font-size: 0.85em;
-    color: var(--muted);
-    text-align: center;
-  }
-
   /* Download */
   .download-box {
     background: var(--surface);
@@ -151,22 +129,8 @@
   /* Responsive */
   @media (max-width: 640px) {
     header h1 { font-size: 2em; }
-    .features, .screenshots { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; }
   }
-
-  /* Lightbox */
-  .lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: #000000ee;
-    z-index: 999;
-    cursor: zoom-out;
-    justify-content: center;
-    align-items: center;
-  }
-  .lightbox.active { display: flex; }
-  .lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 8px; }
 </style>
 </head>
 <body>
@@ -202,29 +166,6 @@
   </div>
 </section>
 
-<section>
-  <div class="container">
-    <h2>截图</h2>
-    <div class="screenshots">
-      <figure>
-        <img src="神马主界面.png" alt="主界面" loading="lazy" onclick="openLightbox(this)">
-        <figcaption>主界面</figcaption>
-      </figure>
-      <figure>
-        <img src="神马最小化界面.png" alt="小窗悬浮" loading="lazy" onclick="openLightbox(this)">
-        <figcaption>小窗悬浮</figcaption>
-      </figure>
-      <figure>
-        <img src="神马循环编辑界面.png" alt="循环编辑" loading="lazy" onclick="openLightbox(this)">
-        <figcaption>循环编辑器</figcaption>
-      </figure>
-      <figure>
-        <img src="神马选项设置.png" alt="选项设置" loading="lazy" onclick="openLightbox(this)">
-        <figcaption>选项设置</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
 
 <section>
   <div class="container">
@@ -259,21 +200,5 @@
   </div>
 </footer>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img" alt="">
-</div>
-
-<script>
-function openLightbox(img) {
-  document.getElementById('lightbox-img').src = img.src;
-  document.getElementById('lightbox').classList.add('active');
-}
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('active');
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeLightbox();
-});
-</script>
 </body>
 </html>
